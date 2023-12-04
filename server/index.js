@@ -18,6 +18,20 @@ app.post("/register", (req, res) => {
     .catch((err) => res.json(err));
 });
 
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  EmployeeModel.findOne({ email: email }).then((user) => {
+    if (user) {
+      if (user.password === password) {
+        res.status(200).json("Success");
+      } else {
+        res.json("the password is incorrect");
+      }
+    } else {
+      res.json("the user does not exist");
+    }
+  });
+});
 app.listen(PORT, () => {
   //   res.status(200).send(res.json);
   console.log("server is running");
